@@ -1,6 +1,11 @@
 {
 "pre_stage": {
-	"proyecto":"bm-gcp-t1-ml", 
-	"dataset":"pre_stage"
+	"proyecto":"bm-gcp-t1-ml"
+	,"dataset":"pre_stage"
+	}
+
+,"post_stage": {
+	"proyecto":"bm-gcp-t1-ml"
+	,"dataset": "post_stage" 
 	}
 }
