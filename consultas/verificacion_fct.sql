@@ -3,7 +3,6 @@
 DECLARE periodo INT64;
 DECLARE date_ejecucion DATE;
 DECLARE int_meses_atras INT64;
-DECLARE array_fechas_key ARRAY<INT64>;
 
 --FUNCIONES
 
@@ -29,6 +28,8 @@ SET date_ejecucion = udf_fecha_desde_periodo({periodo});
 SET int_meses_atras = {intervalo_periodos_hacia_atras};
 
 -- CONSULTA 
+WITH temp_verificacion AS (
+
 SELECT MIN(DATE(f.Fecha)) AS Fecha_min
 ,MAX(DATE(f.Fecha)) AS Fecha_max
 ,udf_fecha_inicio(date_ejecucion,int_meses_atras-2) AS Umbral_min
@@ -38,5 +39,15 @@ SELECT MIN(DATE(f.Fecha)) AS Fecha_min
 ,(MIN(DATE(f.Fecha))<udf_fecha_inicio(date_ejecucion,int_meses_atras-2) 
 	AND MAX(DATE(f.Fecha))>=udf_fecha_inicio(date_ejecucion,0)) AS Condicion_completa
 
-FROM pre_stage.{tabla} t
-INNER JOIN pre_stage.bm_fechas f ON (f.Fecha_Key = t.{campo_fecha})
+FROM {proyecto}.{dataset}.{tabla} t
+INNER JOIN {proyecto_fechas}.{dataset_fechas}.{tabla_fechas} f ON (f.Fecha_Key = t.{campo_fecha})
+)
+
+SELECT
+(CASE WHEN Condicion_completa THEN 0
+        WHEN Condicion_min THEN 1 -- No tiene ultimo periodo
+        WHEN Condicion_max THEN 2 -- No tiene suficiente historia
+        ELSE 3 END) -- No tiene ultimo periodo ni suficiente historia
+        AS condicion
+
+FROM temp_verificacion;

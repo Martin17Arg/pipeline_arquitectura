@@ -1,0 +1,5 @@
+{
+	"tabla": "bm_fechas"
+	,"conexion": "pre_stage"
+	,"dias_desde_actualizacion": 30
+}
