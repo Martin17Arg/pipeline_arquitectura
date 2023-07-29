@@ -1,0 +1,7 @@
+{
+	"tabla": "bm_situaciones_prestamos_vw"
+	,"conexion": "CWS"
+	,"periodo": 202210
+	,"intervalo_periodos_hacia_atras": 12
+	,"campo_fecha": "Fecha_Key"
+}
