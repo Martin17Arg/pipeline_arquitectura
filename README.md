@@ -3,8 +3,12 @@
 ### Arbol de carpetas y archivos
 
 - parametria
-	- origenes
+	- conexiones
+	- directorios
+	- origenes/
 		(un archivo por origen)
+	- indicadores/
+		(un archivo por indicador)
 - queries
 	(templates sql para realizar operaciones comunes)
 
@@ -76,4 +80,15 @@ Se utiliza la parametria para reemplazar en la Query_verificacion (template)
 los parametros propios del indicador y el periodo.
 
 Se conecta a BQ y ejecuta la consulta modificada trayendo como resultado la condición. 
- 
+
+*Pasos intermedios: 
+- importar query del indicador
+- listar origenes del indicador*
+
+**Verificar_origenes**
+Descripción: Verifica si el origen FCT o LKP está actualizado y con los datos necesarios.
+Argumentos:
+- Origen (str)
+- Periodo (int)
+- Conexiones (dict)
+- 
