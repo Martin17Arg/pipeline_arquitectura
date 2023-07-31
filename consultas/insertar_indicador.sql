@@ -1,0 +1,3 @@
+INSERT {proyecto}.{dataset}.measure_{indicador} (Codigo_cliente, periodo, {indicador})
+
+SELECT ...
