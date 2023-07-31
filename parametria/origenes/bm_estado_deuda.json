@@ -1,0 +1,6 @@
+{
+	"tabla": "bm_estado_deuda"
+	,"tipo":"lkp"
+	,"conexion": "pre_stage"
+	,"dias_desde_actualizacion": 30
+}

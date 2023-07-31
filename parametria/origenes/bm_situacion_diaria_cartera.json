@@ -1,0 +1,7 @@
+{
+	"tabla": "bm_situacion_diaria_cartera"
+	,"tipo": "fct"
+	,"conexion": "pre_stage"
+	,"intervalo_periodos_hacia_atras": 1
+	,"campo_fecha": "Fecha_Key"
+}
