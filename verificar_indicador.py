@@ -1,14 +1,31 @@
-def verificar_corrida_indicador(
-	indicador: str
-	,periodo: int
-	,conexiones: dict
-	,parametria: dict
-	,query_verificacion: str
-	) -> int:
+def verificar_indicador(cliente
+	,parametria_indicador
+	,conexiones
+	,query_verificacion
+	,periodo):
 
-	import json
+	""" Verificar que el origen (LKP o FCT) contiene registros y está actualizado """
+
+	# Crear dict vacio para 
+	param = {
+		"indicador": ""
+		,"conexion": ""
+		,"proyecto": ""
+		,"dataset": ""
+		}	
+
+	# Cargar conexiones a parametria
+	param.update(parametria_indicador)
+	param.update(conexiones[parametria_indicador["conexion"]])
+	
+	# Ejecutar consulta de verificacion 
 	from google.cloud import bigquery
 
-	# reemplazar parametria en la query template
-	query_
-	# conectar a BQ y correr la consulta
+	query = query_verificacion.format(**param, periodo=periodo)
+	
+	resultados = cliente.query(query).result()
+
+	for row in resultados:
+		condicion = row[0]
+
+	return condicion
