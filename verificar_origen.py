@@ -7,7 +7,7 @@ def verificar_origen(cliente
 
 	""" Verificar que el origen (LKP o FCT) contiene registros y está actualizado """
 
-	# Crear dict vacio para 
+	# Crear dict vacio para cargar parametria
 	param = {
 		"tabla": ""
 		,"tipo":""
@@ -31,8 +31,6 @@ def verificar_origen(cliente
 	param["tabla_fechas"] = parametria_fechas["tabla"]
 	param["proyecto_fechas"] = parametria_fechas["proyecto"]
 	param["dataset_fechas"] = parametria_fechas["dataset"]
-
-	print(param)
 
 	# Ejecutar consulta de verificacion 
 	from google.cloud import bigquery
