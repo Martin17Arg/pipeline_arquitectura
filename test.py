@@ -3,6 +3,7 @@
 import json
 from google.cloud import bigquery
 from verificar_origen import verificar_origen
+from verificar_indicador import verificar_indicador
 
 if __name__ == "__main__":
 
@@ -19,9 +20,13 @@ if __name__ == "__main__":
 	with open(parametria_fechas_json) as parametros:
 		parametria_fechas = json.load(parametros)
 
-	query_verificacion_sql = "./consultas/verificar_origen.sql"
-	with open(query_verificacion_sql) as query_raw:
+	query_verificacion_origen = "./consultas/verificar_origen.sql"
+	with open(query_verificacion_origen) as query_raw:
 		query_verificacion = query_raw.read()
+
+	query_verificacion_indicador = "./consultas/verificar_indicador.sql" 
+	with open(query_verificacion_indicador) as query_raw:
+		query_verificacion_indicador = query_raw.read()
 	
 	parametria_fct_json = dir_parametria_origenes + "bm_situaciones_prestamos_vw.json"
 	with open(parametria_fct_json) as parametros:
@@ -30,7 +35,11 @@ if __name__ == "__main__":
 	parametria_lkp_json = dir_parametria_origenes + "bm_clientes.json"
 	with open(parametria_lkp_json) as parametros:
 		parametria_lkp = json.load(parametros)
-
+	
+	parametria_indicador_json = dir_parametria + "/indicadores/" + "flag_pmo.json"
+	with open(parametria_indicador_json) as parametros:
+		parametria_indicador = json.load(parametros)
+	
 	estado_verificacion = dict()
 	client = bigquery.Client()	
 
@@ -43,3 +52,10 @@ if __name__ == "__main__":
 	print("Verificacion lkp:\n")
 	estado_verificacion["bm_clientes"] = verificar_origen(client,parametria_lkp,conexiones,parametria_fechas,query_verificacion, 202210)
 	print("Verificacion lkp: ",estado_verificacion["bm_clientes"],"\n")
+	
+	print("Registro de verificaciones en diccionario:")
+	print(estado_verificacion)
+
+	print("\nVerificacion indicadores: (0: tiene registros, 1: no tiene registros\n")
+	print("Verificacion de indicador para 202210: ",verificar_indicador(client,parametria_indicador,conexiones,query_verificacion_indicador,202210))
+	print("Verificacion de indicador para 202211: ",verificar_indicador(client,parametria_indicador,conexiones,query_verificacion_indicador,202211))
