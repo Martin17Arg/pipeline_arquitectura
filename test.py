@@ -4,6 +4,7 @@ import json
 from google.cloud import bigquery
 from verificar_origen import verificar_origen
 from verificar_indicador import verificar_indicador
+from detectar_origenes_indicador import detectar_origenes_indicador
 
 if __name__ == "__main__":
 
@@ -41,10 +42,9 @@ if __name__ == "__main__":
 		parametria_indicador = json.load(parametros)
 	
 	estado_verificacion = dict()
-	client = bigquery.Client()	
+#	client = bigquery.Client()	
 
-#	print(query_verificacion)	
-
+	'''
 	print("Verificacion ftc:\n")
 	estado_verificacion["bm_situaciones_prestamos_vw"] = verificar_origen(client,parametria_fct,conexiones,parametria_fechas,query_verificacion, 202210)
 	print("Verificacion fct: ",estado_verificacion["bm_situaciones_prestamos_vw"],"\n")
@@ -59,3 +59,8 @@ if __name__ == "__main__":
 	print("\nVerificacion indicadores: (0: tiene registros, 1: no tiene registros\n")
 	print("Verificacion de indicador para 202210: ",verificar_indicador(client,parametria_indicador,conexiones,query_verificacion_indicador,202210))
 	print("Verificacion de indicador para 202211: ",verificar_indicador(client,parametria_indicador,conexiones,query_verificacion_indicador,202211))
+	'''
+	print("\nLista de origenes por indicador: \n")
+	directorio_bucket = "/home/martin/kpi_macro/dlh-bda-custom/stage-job-files/"
+	directorio_parametria_origenes = "./parametria/origenes/"
+	print(detectar_origenes_indicador("flag_pmo",parametria_indicador,conexiones,directorio_bucket,directorio_parametria_origenes))

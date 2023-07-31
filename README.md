@@ -3,14 +3,16 @@
 ### Arbol de carpetas y archivos
 
 - parametria
-	- conexiones
-	- directorios
+	- conexiones.json: proyecto y dataset para cada conexion (ubicación de origenes, indicadores, etc)
+	- directorios.json: ubicaciones de ciertos buckets de referencia
 	- origenes/
-		(un archivo por origen)
+		(un archivo json por origen)
 	- indicadores/
-		(un archivo por indicador)
-- queries
-	(templates sql para realizar operaciones comunes)
+		(un archivo json por indicador)
+- queries/	(templates sql para realizar operaciones comunes)
+	- verificar_origen.sql
+	- borrar_indicador_periodo.sql
+	- insertar_indicador_periodo.sql
 
 ### Arbol de funciones
 
