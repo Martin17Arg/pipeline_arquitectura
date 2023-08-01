@@ -61,12 +61,14 @@ Los origenes se verifican nuevamente dado que pueden haber cambiado las condicio
 			- IF fue chequeado, pasar a siguiente origen
 			- ELSE IF  no fue chequeado:
 				- Verificar origen (*verificar_origen*)
-		- IF Si algun origen no esta ok, pasar a siguiente indicador
+		- IF algun origen no esta ok, pasar a siguiente indicador
 		- ELSE IF todos los origenes están ok:
 			- Insertar registros a la tabla del indicador (*correr_indicador*)
 
 **Verificar_indicador_periodo**
+
 Descripción: Verifica si el indicador corrió para el periodo
+
 Argumentos:
 - Indicador (str)
 - Periodo (int)
@@ -89,7 +91,9 @@ Se conecta a BQ y ejecuta la consulta modificada trayendo como resultado la cond
 - listar origenes del indicador*
 
 **Verificar_origenes**
+
 Descripción: Verifica si el origen FCT o LKP está actualizado y con los datos necesarios.
+
 Argumentos:
 - Origen (str)
 - Periodo (int)
