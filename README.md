@@ -64,6 +64,23 @@ Los origenes se verifican nuevamente dado que pueden haber cambiado las condicio
 
 ### Funciones
 
+**Ejecutar_indicadores_activos**
+(función orquestador)
+- Carga lista de indicadores: tomar archivos de parametria (*opcional: cargar_parametria*)
+- Loop sobre lista de indicadores:
+	- Verificar si el indicador se corrio para el periodo (*verificar_indicador_periodo*)
+	--> Si se corrio, pasar a siguiente indicador.
+	--> Si no se corrio:
+		- Identificar origenes del indicador a partir de la query (*identificar_origenes*)
+		- Loop sobre los origenes:
+			- Verificar si se el origen ya fue chequeado (diccionario con resultados de la verificacion):
+			--> Si fue chequeado, pasar a siguiente origen
+			--> Si no fue chequeado:
+				- Verificar origen (*verificar_origen*)
+		- Si algun origen no esta ok, pasar a siguiente indicador
+		- Si todos los origenes están ok:
+			- Insertar registros a la tabla del indicador (*correr_indicador*)
+
 **Verificar_indicador_periodo**
 Descripción: Verifica si el indicador corrió para el periodo
 Argumentos:
@@ -93,4 +110,3 @@ Argumentos:
 - Origen (str)
 - Periodo (int)
 - Conexiones (dict)
-- 
