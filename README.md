@@ -10,9 +10,9 @@
 
 - [ ] Consulta BQ a tabla de calidad
 - [ ] Descargar json de parametria general desde bucket (workflow) --> json.decode
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] Descargar listado de origenes (json) desde bucket 
+- [ ] Descargar listado de indicadores (json) desde bucket
+- [ ] Actualizar lista de origenes por indicador (trigger? o en base a la consulta?)
 - [ ] 
 - [ ] 
 - [ ] 
@@ -28,6 +28,9 @@ https://cloud.google.com/workflows/docs/reference/stdlib/json/decode
 3. Workflow syntax
 https://cloud.google.com/workflows/docs/reference/syntax/syntax-search
 
+4. Workflow pricing
+https://cloud.google.com/workflows/pricing
+
 ### Flujo de trabajo
 
 - Verificacion de origenes: 
@@ -38,8 +41,8 @@ https://cloud.google.com/workflows/docs/reference/syntax/syntax-search
 Se consulta tabla de calidad (ver campos).
 
 - Verificacion de indicadores:
-	- Detectar origenes por cada indicador (se podria hacer tambien por evento, cada vez que se modifica un indicador)
-	- Para cada origen se debe chequear que cumpla las condiciones.
+	- Detectar origenes por cada indicador: Consulta BQ --> Lista  
+	- Para cada origen se debe chequear que cumpla las condiciones --> alternativa al loop?.
 		- Si las condiciones se cumplen, el indicador se corre.
 	
 Logging?
