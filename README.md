@@ -4,7 +4,13 @@
 
 - Agregar paralelismo
 - Utilizar tabla de calidad de subida de origenes
-- Log que pueda ser interpretado más facilmente
+- Log que pueda ser interpretado más facilmente --> alternativas mas intuitivas a Cloud Logging?
+
+### Puntos a revisar
+
+- Como funciona "parallel" dentro de Workflow? se debería limitar la cantidad de trabajos en paralelo?
+- Como se puede testear el funcionamiento de un Workflow?
+- Debe crearse una cuenta de servicio? quien la crea?
 
 ### Lista de tareas:
 
@@ -13,23 +19,23 @@
 - [ ] Descargar listado de origenes (json) desde bucket 
 - [ ] Descargar listado de indicadores (json) desde bucket
 - [ ] Actualizar lista de origenes por indicador (trigger? o en base a la consulta?)
-- [ ] 
-- [ ] 
-- [ ] 
 
 ### Recursos
 
 1. Descarga de objetos desde GCS:
-https://cloud.google.com/storage/docs/downloading-objects?hl=es-419#permissions-rest
+(https://cloud.google.com/storage/docs/downloading-objects?hl=es-419#permissions-rest)
 
 2. Deserialize JSON (json.decode):
-https://cloud.google.com/workflows/docs/reference/stdlib/json/decode
+(https://cloud.google.com/workflows/docs/reference/stdlib/json/decode)
 
 3. Workflow syntax
-https://cloud.google.com/workflows/docs/reference/syntax/syntax-search
+(https://cloud.google.com/workflows/docs/reference/syntax/syntax-search)
 
 4. Workflow pricing
-https://cloud.google.com/workflows/pricing
+(https://cloud.google.com/workflows/pricing)
+
+5. Parallel
+https://cloud.google.com/workflows/docs/reference/syntax/parallel-steps
 
 ### Flujo de trabajo
 
@@ -46,6 +52,11 @@ Se consulta tabla de calidad (ver campos).
 		- Si las condiciones se cumplen, el indicador se corre.
 	
 Logging?
+
+### Parametria
+
+- conexiones.json: con ubicacion de las tablas de origen e indicadores
+- origenes/{tabla_origen}.json: nombre en el dataset, conexion, tipo de tabla
 
 ## V1
 ### Arbol de carpetas y archivos
