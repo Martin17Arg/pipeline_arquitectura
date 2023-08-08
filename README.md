@@ -23,19 +23,25 @@
 ### Recursos
 
 1. Descarga de objetos desde GCS:
-(https://cloud.google.com/storage/docs/downloading-objects?hl=es-419#permissions-rest)
+https://cloud.google.com/storage/docs/downloading-objects?hl=es-419#permissions-rest
 
 2. Deserialize JSON (json.decode):
-(https://cloud.google.com/workflows/docs/reference/stdlib/json/decode)
+https://cloud.google.com/workflows/docs/reference/stdlib/json/decode
 
-3. Workflow syntax
-(https://cloud.google.com/workflows/docs/reference/syntax/syntax-search)
+3. Workflow syntax:
+https://cloud.google.com/workflows/docs/reference/syntax/syntax-search
 
-4. Workflow pricing
-(https://cloud.google.com/workflows/pricing)
+4. Workflow pricing:
+https://cloud.google.com/workflows/pricing
 
-5. Parallel
+5. Parallel:
 https://cloud.google.com/workflows/docs/reference/syntax/parallel-steps
+
+6. Storage bucket get:
+https://cloud.google.com/workflows/docs/reference/googleapis/storage/v1/objects/get
+
+7. Storage connector:
+https://cloud.google.com/workflows/docs/samples/workflows-connector-storage
 
 ### Flujo de trabajo
 
