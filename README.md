@@ -1,10 +1,44 @@
 # Arquitectura
 
-## V2
+## V3
+
+Verificacion (primer paso en el flujo)
+- OPCION 1:
+	- Utilización de parametría en BQ, que se actualiza desde JSON en el Cloud Storage.
+	- A través de un join se obtienen los indicadores que están listos para correr (varias tablas).
+- OPCION 2: 
+	- Verificacion de tablas a través de tabla de calidad de subida --> Se obtiene lista de tablas verificadas.
+	- Paralelamente se puede chequear si el indicador ya corrio 
+		(debe haber una fuente persistente de esa info indicador-periodo, puede ser 
+		BigQuery u otra)
+	- A partir de la lista de indicadores completa, se descartan los que ya se corrieron.
+	- A partir de la lista de los que no se corrieron, se itera y se verifican los origenes.
+	- Si los origenes estan validados (ver primer paso), se ejecuta la query en 2 pasos:
+		1. Cloud function que importa la query y la devuelve con los parametros correctos 
+		(reemplazo de nombre de tablas principalmente).
+		2. Ejecución de la query (Workflow, conector BigQuery insert)
+	- Logging a definir:
+		- Validación de origenes: informar origenes no validados (lista o registros individuales)
+		- 
+		
+
+#### Workflow esquematico (Opcion 2)
+
+
+Definir periodo a partir de fecha de ejecución
+``` yaml
+- steps: 
+```
+
+Valida
+
+## Versiones previas 
+
+### V2
 
 - Agregar paralelismo
-- Utilizar tabla de calidad de subida de origenes
-- Log que pueda ser interpretado más facilmente --> alternativas mas intuitivas a Cloud Logging?
+- Utilizar tabla de calidad de subida de orígenes
+- Log que pueda ser interpretado más fácilmente --> alternativas mas intuitivas a Cloud Logging?
 
 ### Puntos a revisar
 
@@ -15,10 +49,10 @@
 ### Lista de tareas:
 
 - [ ] Consulta BQ a tabla de calidad
-- [ ] Descargar json de parametria general desde bucket (workflow) --> json.decode
-- [ ] Descargar listado de origenes (json) desde bucket 
+- [ ] Descargar json de parametría general desde bucket (workflow) --> json.decode
+- [ ] Descargar listado de orígenes (json) desde bucket 
 - [ ] Descargar listado de indicadores (json) desde bucket
-- [ ] Actualizar lista de origenes por indicador (trigger? o en base a la consulta?)
+- [ ] Actualizar lista de orígenes por indicador (trigger? o en base a la consulta?)
 
 ### Recursos
 
@@ -45,32 +79,32 @@ https://cloud.google.com/workflows/docs/samples/workflows-connector-storage
 
 ### Flujo de trabajo
 
-- Verificacion de origenes: 
+- Verificación de orígenes: 
 	- que estén actualizados en el último mes (lkp)
-	- que tengan datos del ultimo periodo (fct) --> Fecha maxima > fecha_maxima_requerida (inicio ultimo periodo)
-	- que tengan suficiente historia (fct) --> Fecha minima < fecha_minima_requerida (fin primer periodo)
+	- que tengan datos del ultimo periodo (fct) --> Fecha máxima > fecha_máxima_requerida (inicio ultimo periodo)
+	- que tengan suficiente historia (fct) --> Fecha mínima < fecha_mínima_requerida (fin primer periodo)
 
 Se consulta tabla de calidad (ver campos).
 
-- Verificacion de indicadores:
-	- Detectar origenes por cada indicador: Consulta BQ --> Lista  
+- Verificación de indicadores:
+	- Detectar orígenes por cada indicador: Consulta BQ --> Lista  
 	- Para cada origen se debe chequear que cumpla las condiciones --> alternativa al loop?.
 		- Si las condiciones se cumplen, el indicador se corre.
 	
 Logging?
 
-### Parametria
+### Parametría
 
-- conexiones.json: con ubicacion de las tablas de origen e indicadores
-- origenes/{tabla_origen}.json: nombre en el dataset, conexion, tipo de tabla
+- conexiones.json: con ubicación de las tablas de origen e indicadores
+- orígenes/{tabla_origen}.json: nombre en el dataset, conexión, tipo de tabla
 
 ## V1
-### Arbol de carpetas y archivos
+### Árbol de carpetas y archivos
 
-- parametria
-	- conexiones.json: proyecto y dataset para cada conexion (ubicación de origenes, indicadores, etc)
+- parametría
+	- conexiones.json: proyecto y dataset para cada conexión (ubicación de orígenes, indicadores, etc)
 	- directorios.json: ubicaciones de ciertos buckets de referencia
-	- origenes/
+	- orígenes/
 		(un archivo json por origen)
 	- indicadores/
 		(un archivo json por indicador)
@@ -81,53 +115,53 @@ Logging?
 
 ### Procesos
 
-1. Ejecucion de indicadores del periodo (automatico/manual)
+1. Ejecución de indicadores del periodo (automático/manual)
 2. Reproceso de indicadores (manual)
 
-### Parametria
+### Parametría
 
 - Conexiones: proyecto, dataset
-- Origenes: nombre, conexion, tipo, intervalo_periodos_actualizacion (solo fct), 
-dias_desde_actualizacion (solo lkp), campo_fecha (solo fct)
-- Indicadores: nombre, conexion, estado
+- Orígenes: nombre, conexión, tipo, intervalo_periodos_actualización (solo fct), 
+días_desde_actualización (solo lkp), campo_fecha (solo fct)
+- Indicadores: nombre, conexión, estado
 
 ### Procesamiento de indicadores
 
 A principio de mes, donde la mayoría de las tablas ya estén disponibles y actualizadas, se puede comenzar 
 con la ejecución para el total del listado de indicadores.
 
-NOTA: Para evitar repetir la verificación de origenes que ya se verificaron,
+NOTA: Para evitar repetir la verificación de orígenes que ya se verificaron,
 se crea un diccionario con los resultados de verificaciones previas que se consulta previo
 a ejecutar una nueva verificación.
 
-### Reproceso automatico
+### Reproceso automático
 El loop sobre el total de indicadores puede realizarse con una frecuencia a definir 
 (puede ser diario o puede ser cada un cierto intervalo de días), 
 teniendo en cuenta que la razón por la que los indicadores no se corran debería ser 
-principalmente por origenes desactualizados (lo que requiere una acción que no es inmediata) o una falla en
+principalmente por orígenes desactualizados (lo que requiere una acción que no es inmediata) o una falla en
 el proceso (en ese caso, una frecuencia diaria o incluso más alta es apropiada).
-De todas maneras, esta cloud function puede ser iniciada manualmente.
+De todas maneras, esta Cloud function puede ser iniciada manualmente.
 
-Para las nuevas corridas se evita reprocesar los indicadores que ya se corrieron gracias a la primera verificacion.
-Los origenes se verifican nuevamente dado que pueden haber cambiado las condiciones.
+Para las nuevas corridas se evita reprocesar los indicadores que ya se corrieron gracias a la primera verificación.
+Los orígenes se verifican nuevamente dado que pueden haber cambiado las condiciones.
 
 ### Funciones
 
 **Ejecutar_indicadores_activos**
 (función orquestador)
-- Carga lista de indicadores: tomar archivos de parametria (*opcional: cargar_parametria*)
+- Carga lista de indicadores: tomar archivos de parametría (*opcional: cargar_parametría*)
 - Loop sobre lista de indicadores:
-	- Verificar si el indicador se corrio para el periodo (*verificar_indicador_periodo*)
-	- IF se corrio, pasar a siguiente indicador.
-	- ELSE IF no se corrio:
-		- Identificar origenes del indicador a partir de la query (*identificar_origenes*)
-		- Loop sobre los origenes:
-			- Verificar si se el origen ya fue chequeado (diccionario con resultados de la verificacion):
+	- Verificar si el indicador se corrió para el periodo (*verificar_indicador_periodo*)
+	- IF se corrió, pasar a siguiente indicador.
+	- ELSE IF no se corrió:
+		- Identificar orígenes del indicador a partir de la query (*identificar_orígenes*)
+		- Loop sobre los orígenes:
+			- Verificar si se el origen ya fue chequeado (diccionario con resultados de la verificación):
 			- IF fue chequeado, pasar a siguiente origen
 			- ELSE IF  no fue chequeado:
 				- Verificar origen (*verificar_origen*)
-		- IF algun origen no esta ok, pasar a siguiente indicador
-		- ELSE IF todos los origenes están ok:
+		- IF algún origen no esta ok, pasar a siguiente indicador
+		- ELSE IF todos los orígenes están ok:
 			- Insertar registros a la tabla del indicador (*correr_indicador*)
 
 **Verificar_indicador_periodo**
@@ -138,24 +172,24 @@ Argumentos:
 - Indicador (str)
 - Periodo (int)
 - Conexiones (dict)
-- Query_verificacion (str)
+- Query_verificación (str)
 
-Return: condicion (int)
+Return: condición (int)
 - 0: No se corrió
 - 1: Se corrió el indicador para ese periodo
 
-Para el indicador se levanta su parametria para saber su conexion.
+Para el indicador se levanta su parametría para saber su conexión.
 
-Se utiliza la parametria para reemplazar en la Query_verificacion (template) 
-los parametros propios del indicador y el periodo.
+Se utiliza la parametría para reemplazar en la Query_verificación (template) 
+los parámetros propios del indicador y el periodo.
 
 Se conecta a BQ y ejecuta la consulta modificada trayendo como resultado la condición. 
 
 *Pasos intermedios: 
 - importar query del indicador
-- listar origenes del indicador*
+- listar orígenes del indicador*
 
-**Verificar_origenes**
+**Verificar_orígenes**
 
 Descripción: Verifica si el origen FCT o LKP está actualizado y con los datos necesarios.
 
