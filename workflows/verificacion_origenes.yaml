@@ -28,3 +28,7 @@ cargarJsonDesdeGCS:
 # Alternativa (http get):
 
 gs://bm-gcp-ue1-t1-ml-bkt-custom/cloudbuild.yaml
+
+main:
+  params:
+  steps: 

@@ -13,24 +13,45 @@ Verificacion (primer paso en el flujo)
 		BigQuery u otra)
 	- A partir de la lista de indicadores completa, se descartan los que ya se corrieron.
 	- A partir de la lista de los que no se corrieron, se itera y se verifican los origenes.
-	- Si los origenes estan validados (ver primer paso), se ejecuta la query en 2 pasos:
+	- Si los origenes estan validados (ver primer paso) para ese indicador, se ejecuta la query en 2 pasos:
 		1. Cloud function que importa la query y la devuelve con los parametros correctos 
-		(reemplazo de nombre de tablas principalmente).
+		(reemplazo de nombre de tablas y fecha_ejecucion/periodo).
 		2. Ejecución de la query (Workflow, conector BigQuery insert)
-	- Logging a definir:
+		- **Este ultimo paso se puede definir como un subworkflow para poder paralelizarlo.**
+	- Logging (a definir):
 		- Validación de origenes: informar origenes no validados (lista o registros individuales)
-		- 
+		- Ejecución de indicadores, independientemente del resultado 
 		
-
 #### Workflow esquematico (Opcion 2)
 
-
-Definir periodo a partir de fecha de ejecución
+- Asignar variables (fecha_ejecucion)
+	- Puede que no sea necesario: reemplazar diccionario con fecha y periodo, devuelto por una cloud function.
+	
 ``` yaml
-- steps: 
+- assignments:
+	- fecha_ejecucion: ${time.format(sys.now())}
 ```
 
-Valida
+- Definir periodo a partir de fecha de ejecución
+	- [ ] TODO: Ver conector CloudFunction
+
+``` yaml
+- definir_periodo:
+	# Cloud function devuelve periodo en base a fecha de ejecucion
+	call: http.get
+	args:
+		url: #url cloud function
+		fecha_ejecucion: ${fecha_ejecucion} 
+	result: periodo
+```
+
+- Validación de tablas
+	- Consulta a BQ. Query personalizada para evaluar condiciones 
+	- Inputs: requerimientos para cada origen (uno por origen) 
+	- Return: map (diccionario) con origen (key) y resultado de la validacion (value)
+ 
+	- Consulta a tabla de calidad de origenes.
+	- JOIN con tabla con requerimientos para cada origen
 
 ## Versiones previas 
 
