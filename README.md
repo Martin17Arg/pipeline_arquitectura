@@ -29,7 +29,7 @@ Verificacion (primer paso en el flujo)
 	
 ``` yaml
 - assignments:
-	- fecha_ejecucion: ${time.format(sys.now())}
+  - fecha_ejecucion: ${time.format(sys.now())}
 ```
 
 - Definir periodo a partir de fecha de ejecución
