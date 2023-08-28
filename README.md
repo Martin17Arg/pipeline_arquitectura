@@ -37,12 +37,12 @@ Verificacion (primer paso en el flujo)
 
 ``` yaml
 - definir_periodo:
-	# Cloud function devuelve periodo en base a fecha de ejecucion
-	call: http.get
-	args:
-		url: #url cloud function
-		fecha_ejecucion: ${fecha_ejecucion} 
-	result: periodo
+  # Cloud function devuelve periodo en base a fecha de ejecucion
+  call: http.get
+  args:
+    url: #url cloud function
+    fecha_ejecucion: ${fecha_ejecucion} 
+  result: periodo
 ```
 
 - Validación de tablas
