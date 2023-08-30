@@ -16,7 +16,7 @@
 
 - Inputs:
 
-1. Parametria de origenes (json): listado de origenes y requisitos de validacion
+	1. Parametria de origenes (json): listado de origenes y requisitos de validacion
 
 ``` json
 ["bm_saldos": {
@@ -32,7 +32,7 @@
 ]
 ```
 
-2. Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
+	2. Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
 
 | Indicador | Periodo |
 | :-  | :-: |
