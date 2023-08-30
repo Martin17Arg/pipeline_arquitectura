@@ -32,6 +32,7 @@
 
 		- Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
 
+
 | Indicador | Periodo |
 | :-  | :-: |
 | flag_td | 202306 |
