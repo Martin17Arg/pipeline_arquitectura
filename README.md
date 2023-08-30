@@ -25,7 +25,7 @@
 	"nombreDataset": "lkp_clientes"
 	,"conexion": "dw"
 	,"max_dias_desde_actualizacion": 30
-	},
+	}
 ]
 ```
 
