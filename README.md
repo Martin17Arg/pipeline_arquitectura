@@ -15,8 +15,11 @@
 2. Verificación de origenes
 
 - Inputs:
-
 	1. Parametria de origenes (json): listado de origenes y requisitos de validacion
+	2. Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
+	3. Conexiones: ubicación de los distintos dataset
+
+Parametria de origenes:
 
 ``` json
 ["bm_saldos": {
@@ -32,20 +35,33 @@
 ]
 ```
 
-	2. Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
+Tabla de indicadores corridos
 
 | Indicador | Periodo |
 | :-  | :-: |
 | flag_td | 202306 |
 | cli_convenio | 202306 |
 
+Conexiones:
 
-		- Conexiones: ubicación de los distintos dataset
-	- Pasos:
-		- La parametria se incorpora a BQ para joinear con la tabla de calidad.
-		- A través de un conector a BQ en workflow se ejecuta una query que devuelva la lista de origenes validados.
-	- Return:
-		- Lista de origenes validados
+``` json
+["dw": {
+	"proyecto": "bm-gcp-t1-ml"
+	,"dataset": "pre_stage"
+	},
+"ind": {
+	"proyecto": "bm-gcp-t1-ml"
+	,"dataset": "post_stage"
+	}
+]
+```
+
+- Pasos:
+	- La parametria se incorpora a BQ para joinear con la tabla de calidad.
+	- A través de un conector a BQ en workflow se ejecuta una query que devuelva la lista de origenes validados.
+
+- Return:
+	- Lista de origenes validados
 
 3. Verificación de indicadores ya corridos para el periodo.
 	- Inputs:
