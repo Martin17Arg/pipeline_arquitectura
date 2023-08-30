@@ -21,7 +21,7 @@
 	,"conexion": "dw"
 	,"periodos_necesarios": 12
 	},
-"bm_clientes": 
+"bm_clientes": { 
 	"nombreDataset": "lkp_clientes"
 	,"conexion": "dw"
 	,"max_dias_desde_actualizacion": 30
