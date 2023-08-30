@@ -15,6 +15,7 @@
 2. Verificación de origenes
 	- Inputs:
 		- Parametria de origenes (json): listado de origenes y requisitos de validacion
+
 ``` json
 ["bm_saldos": {
 	"nombre_dataset": "fct_saldos"
