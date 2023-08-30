@@ -6,8 +6,6 @@
 	- Fecha ejecucion: desde workflow
 	- Periodo: desde cloud function o expresion (mas compleja) de workflow	
 
-[Codigo](#3.1)
-
 ``` yaml
 - assignments:
   - fecha_ejecucion: ${substring(time.format(sys.now()),0,9)} # YYYY-MM-DD
@@ -19,11 +17,26 @@
 		- Parametria de origenes (json): listado de origenes y requisitos de validacion
 ``` json
 ["bm_saldos": {
-	"nombreDataset": "fct_saldos"
-	"conexion": "dw"
-	}
+	"nombre_dataset": "fct_saldos"
+	,"conexion": "dw"
+	,"periodos_necesarios": 12
+	},
+"bm_clientes": 
+	"nombreDataset": "lkp_clientes"
+	,"conexion": "dw"
+	,"max_dias_desde_actualizacion": 30
+	},
+]
 ```
+
 		- Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
+
+| Indicador | Periodo |
+| :-  | :-: |
+| flag_td | 202306 |
+| cli_convenio | 202306 |
+
+
 		- Conexiones: ubicación de los distintos dataset
 	- Pasos:
 		- La parametria se incorpora a BQ para joinear con la tabla de calidad.
