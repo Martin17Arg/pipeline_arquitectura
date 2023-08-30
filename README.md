@@ -30,7 +30,7 @@
 ]
 ```
 
-- Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
+	- Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
 
 
 | Indicador | Periodo |
