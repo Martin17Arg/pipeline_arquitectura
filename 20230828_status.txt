@@ -1,0 +1,25 @@
+Status
+- Definiendo arquitectura:
+
+1. Inicialización:
+
+	- definir fecha de ejecucion y periodo
+	- validación de origenes:
+		Consulta a tabla de calidad de origenes y tabla con parametros de validacion. 
+		Resultado: lista de origenes validados.
+	- saber que indicadores ya se corrieron para el periodo
+		Consulta a una tabla de BQ que persista estos valores.
+		La alternativa es consultar indicador por indicador.
+
+2. Ejecutar indicadores (iteracion sobre lista de indicadores no corridos)
+
+	- CF Detectar origenes: para el indicador se importa su query y se identifica los origenes que utiliza.
+		return [origenes]  
+	- CF Validar origenes: para cada origen se verifica que este en la lista de origenes validados.
+		Si alguno de los origenes no está, return false
+		return [boolean]
+	- Ejecutar indicador: con un conector de workflow a BQ se insertan los datos a partir de la consulta
+
+3. Actualizar lista de indicadores que se corrieron (errores en log)
+
+4. Volver a correr el workflow (schedule o trigger) 
