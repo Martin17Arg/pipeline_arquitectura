@@ -1,0 +1,10 @@
+{
+  "origenes": {
+    "proyecto": "bm-workflow",
+    "dataset": "pre_stage"
+  },
+  "indicadores": {
+    "proyecto": "bm-workflow",
+    "dataset": "post_stage"
+  }
+}

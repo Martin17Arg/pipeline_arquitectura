@@ -8,8 +8,7 @@
 
 ``` yaml
 - assignments:
-  - fecha_ejecucion: ${substring(time.format(sys.now()),0,9)} # YYYY-MM-DD
-  - periodo: ${int(substring(time.format(sys.now()),0,3) + substring(time.format(sys.now()),5,6))} # YYYYMM
+  - fecha_ejecucion: ${text.substring(time.format(sys.now()),0,10)} # YYYY-MM-DD
 ```
 
 2. Verificación de origenes
@@ -19,7 +18,7 @@
 	2. Tabla de calidad de origenes (BQ): tabla con registros de subidas de origenes
 	3. Conexiones: ubicación de los distintos dataset
 
-Parametria de origenes:
+**Parametria de origenes:**
 
 ``` json
 ["bm_saldos": {
@@ -35,14 +34,14 @@ Parametria de origenes:
 ]
 ```
 
-Tabla de indicadores corridos
+**Tabla de indicadores corridos**
 
 | Indicador | Periodo |
 | :-  | :-: |
 | flag_td | 202306 |
 | cli_convenio | 202306 |
 
-Conexiones:
+**Conexiones:**
 
 ``` json
 ["dw": {

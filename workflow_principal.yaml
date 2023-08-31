@@ -1,0 +1,19 @@
+
+- assignments:
+  - fecha_ejecucion: ${substring(time.format(sys.now()),0,9)} # YYYY-MM-DD
+  - periodo: ${int(substring(time.format(sys.now()),0,3) + substring(time.format(sys.now()),5,6))} # YYYYMM
+  - parametria_bucket: "gs:parametria"
+  - conexiones_object: "conexiones.json"
+  - origenes_object: "origenes.json"
+
+- importar_conexiones:
+  call: importar_desde_gcs 
+    args:
+      bucket: ${parametria_bucket}
+      object: ${conexiones_object}
+    result: object_data
+
+- importar_parametria_origenes:
+
+
+

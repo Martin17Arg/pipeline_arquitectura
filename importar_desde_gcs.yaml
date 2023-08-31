@@ -1,0 +1,11 @@
+main:
+  params: [bucket, object]
+  call: googleapis.storage.v1.objects.get
+    args:
+      bucket: ${bucket}
+      object: ${object}
+      alt: "media"
+    result: object_data
+
+
+
