@@ -90,7 +90,49 @@
 		(de acuerdo a parametria de origenes y conexiones)
  		- Ejecutar indicador (insert) a partir de la query modificada
 
+### Workflow
 
-A definir:
+``` yaml
+- asignar_variables:
+	# origenes, conexiones,...
+	- importar_conexiones
+	- importar_parametria_origenes:
+
+- verificar_origenes:
+	# Subworkflow:
+	# - Incorporar parametria de origenes a BQ (bq load - cloud function)
+	# - Consulta a tabla de calidad de origenes
+
+- consultar_indicadores_corridos
+	call: # conector bigquery
+
+- listar_indicadores_pendientes
+	# return ${lista_indicadores_pendientes}
+
+- ejecutar indicadores
+	parallel:
+		shared: [lista_indicadores_pendientes]
+		for:
+			value: indicador
+			in: ${lista_indicadores_pendientes}
+			steps:
+				- verificar origenes
+					call: # subworkflow
+					args:
+						indicador: ${indicador}
+					result: verificacion_indicador
+				- ejecutar_si_verificado:
+					switch:
+						- condition ${verificacion_indicador}
+							# Subworkflow ejecucion indicador
+							# Registrar si el indicador se corrió satisfactoriamente --> BQ
+							# (si no cumple, pasa a siguiente indicador)
+							 
+```
+
+**A desarrollar**
+- Query de verificacion de origenes.
+
+**A definir:**
 - Features: vistas o consultas? necesitarian pasos similares a los indicadores.
 
