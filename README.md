@@ -1,6 +1,12 @@
 # Arquitectura
 
-## V3
+## Premisas
+- Workflow como orquestador
+- Uso de tabla de calidad de origenes
+- Cloud functions atómicas
+- Paralelizar procesos
+
+## Version 3
 
 1. Identificar fecha y periodo
 	- Fecha ejecucion: desde workflow
@@ -94,45 +100,52 @@
 
 ``` yaml
 - asignar_variables:
-	# origenes, conexiones,...
-	- importar_conexiones
-	- importar_parametria_origenes:
+  # origenes, conexiones,...
+  - importar_conexiones
+  - importar_parametria_origenes:
+
+- definir_fecha_ejecucion:
+  - fecha_ejecucion: ${text.substring(time.format(sys.now()),0,10)} # YYYY-MM-DD
+
+- definir_periodo:
+  # cloud function
 
 - verificar_origenes:
-	# Subworkflow:
-	# - Incorporar parametria de origenes a BQ (bq load - cloud function)
-	# - Consulta a tabla de calidad de origenes
+  # Subworkflow:
+  # - Incorporar parametria de origenes a BQ (bq load - cloud function)
+  # - Consulta a tabla de calidad de origenes
 
 - consultar_indicadores_corridos
-	call: # conector bigquery
+  call: # conector bigquery
 
 - listar_indicadores_pendientes
-	# return ${lista_indicadores_pendientes}
+  # return ${lista_indicadores_pendientes}
 
 - ejecutar indicadores
-	parallel:
-		shared: [lista_indicadores_pendientes]
-		for:
-			value: indicador
-			in: ${lista_indicadores_pendientes}
-			steps:
-				- verificar origenes
-					call: # subworkflow
-					args:
-						indicador: ${indicador}
-					result: verificacion_indicador
-				- ejecutar_si_verificado:
-					switch:
-						- condition ${verificacion_indicador}
-							# Subworkflow ejecucion indicador
-							# Registrar si el indicador se corrió satisfactoriamente --> BQ
-							# (si no cumple, pasa a siguiente indicador)
+  parallel:
+    shared: [lista_indicadores_pendientes]
+      for:
+        value: indicador
+        in: ${lista_indicadores_pendientes}
+          steps:
+            - verificar origenes
+              call: # subworkflow
+              args:
+                indicador: ${indicador}
+                result: verificacion_indicador
+            - ejecutar_si_verificado:
+                switch
+                - condition ${verificacion_indicador}
+                  # Subworkflow ejecucion indicador
+                  # Registrar si el indicador se corrió satisfactoriamente --> BQ
+                  # (si no cumple, pasa a siguiente indicador)
 							 
 ```
 
 **A desarrollar**
 - Query de verificacion de origenes.
+- Subworkflows / cloud functions
 
 **A definir:**
-- Features: vistas o consultas? necesitarian pasos similares a los indicadores.
+- Features: vistas o consultas? necesitarian pasos similares.
 
