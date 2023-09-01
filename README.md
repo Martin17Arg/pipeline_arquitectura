@@ -66,20 +66,18 @@
 	- Inputs:
 		- Tabla con indicadores-periodo corridos satisfactoriamente
 		- Lista de indicadores a correr para el periodo (indicadores activos)
-	- Pasos:
+	- Pasos (*paralelizables*):
 		- Consulta a tabla de indicadores corridos para el periodo actual.
 		- Filtrar de la lista de indicadores a correr los que ya se corrieron (de acuerdo a la consulta previa)
 	- Return:
 		- Lista de indicadores que aún no se corrieron para el periodo.
-
-*NOTA: pasos 1 y 2 se pueden paralelizar*
 
 4. Ejecución de indicadores
 	- Inputs:
 		- Lista de indicadores que aún no se corrieron (paso 2)
 		- Lista de origenes validados (paso 1)
 		- Conexiones
-		- Query (traida desde GCS)
+		- Query del indicador (traida desde GCS)
 	- Pasos:
 		- Importar query desde GCS
 		- Identificar origenes (buscar en la query strings que comienzen con "pre_stage.*" [version actual])
@@ -93,8 +91,6 @@
  		- Ejecutar indicador (insert) a partir de la query modificada
 
 
-## Ejemplos:
-
-### 3.1
-
+A definir:
+- Features: vistas o consultas? necesitarian pasos similares a los indicadores.
 

@@ -1,0 +1,17 @@
+# Importar parametria de conexiones desde GCS
+
+main:
+  steps:
+    - assign:
+      - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      - bucket_name: "bm-parametria"
+      - object_name: "conexiones.json"
+    - download_object_media:
+      call: googleapis.storage.v1.objects.get
+      args:
+        bucket: ${bucket_name}
+        object: ${object_name}
+      alt: "media"
+      result: object_data
+    - end_step:
+      return: ${object_data}
