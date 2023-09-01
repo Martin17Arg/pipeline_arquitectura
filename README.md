@@ -139,7 +139,6 @@
                   # Subworkflow ejecucion indicador
                   # Registrar si el indicador se corrió satisfactoriamente --> BQ
                   # (si no cumple, pasa a siguiente indicador)
-							 
 ```
 
 **A desarrollar**
