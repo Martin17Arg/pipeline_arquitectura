@@ -1,0 +1,38 @@
+09-01
+
+VISTAS:
+https://cloud.google.com/bigquery/docs/views-intro?hl=es-419
+
+La consulta que define la vista se ejecuta cada vez que se consulta la vista. 
+Si realizas consultas frecuentes en una vista costosa en cuanto al procesamiento, 
+deberías considerar crear una vista materializada.
+
+Vistas materializadas:
+- Se recalculan automaticamente cuando las tablas base cambian
+
+Ventajas: no ejecuta la consulta de nuevo, solo actualiza el delta
+Desventajas: no valida que el indicador se haya corrido para el periodo.
+
+Ej: Feature con 10 indicadores para el periodo 202305, tendria 11 columnas (periodo mas indicadores).
+Si ya se empieza a correr el siguiente periodo (202306) va a tener las mismas columnas, 
+pero si alguno de los indicadores no se corrio aun van a aparecer todos esos datos en NULL, 
+dado que el join se hace por cliente y periodo (no habria coincidencia).
+
+09-04
+
+Dataform como alternativa (pipeline en SQL)
+- Mucho codigo y no tan amigable
+
+OBSERVACIONES:
+- Repo pipeline
+- Particionada por periodo
+- Scripts particion (Mauro)
+- Costos vista vs almacenamiento
+- Probar dataform
+- Ejecutar identificacion de origenes 
+
+09-06
+
+Comparacion tablas persistentes vs vistas
+
+Dataform: definicion de tablas, ejecuciones, validaciones a traves de archivos SQLX (config + SQL) y JS
